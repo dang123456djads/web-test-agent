@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo Site – Web Test Agent</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    h1 { font-size: 1.75rem; font-weight: 700; color: #7c3aed; }
+    h2 { font-size: 1.1rem; font-weight: 600; color: #94a3b8; margin-bottom: 1rem; }
+
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 2rem;
+      width: 380px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #94a3b8;
+      margin-bottom: 0.4rem;
+    }
+
+    input[type="text"], input[type="password"], input[type="email"], select {
+      width: 100%;
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      border: 1px solid #475569;
+      background: #0f172a;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus { border-color: #7c3aed; }
+
+    button {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:active { transform: scale(0.98); }
+
+    .btn-primary { background: #7c3aed; color: #fff; }
+    .btn-primary:hover { background: #6d28d9; }
+    .btn-secondary { background: #334155; color: #e2e8f0; margin-top: 0.5rem; }
+    .btn-secondary:hover { background: #475569; }
+    .btn-danger { background: #dc2626; color: #fff; margin-top: 0.5rem; }
+    .btn-danger:hover { background: #b91c1c; }
+
+    #message {
+      margin-top: 1rem;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: none;
+    }
+    #message.success { background: #14532d; color: #86efac; display: block; }
+    #message.error   { background: #450a0a; color: #fca5a5; display: block; }
+
+    #error-message {
+      color: #fca5a5;
+      font-size: 0.85rem;
+      margin-top: -0.6rem;
+      margin-bottom: 0.8rem;
+      display: none;
+    }
+
+    .counter-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    #counter-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #7c3aed;
+      min-width: 3rem;
+      text-align: center;
+    }
+    .counter-btn {
+      width: auto;
+      padding: 0.5rem 1.2rem;
+      font-size: 1.2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .nav-links a {
+      color: #7c3aed;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .nav-links a:hover { text-decoration: underline; }
+
+    #page-indicator {
+      font-size: 0.8rem;
+      color: #64748b;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page: Login Form -->
+  <div class="card" id="login-page">
+    <h1>🤖 Web Test Agent</h1>
+    <h2>Demo Site – Login</h2>
+
+    <label for="email">Email</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      placeholder="admin@example.com"
+      autocomplete="username"
+    />
+
+    <label for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      placeholder="••••••••"
+      autocomplete="current-password"
+    />
+
+    <div id="error-message" role="alert"></div>
+
+    <button class="btn-primary" id="login-btn" onclick="handleLogin()">
+      Đăng nhập
+    </button>
+
+    <div id="message"></div>
+  </div>
+
+  <!-- Page: Dashboard (hidden initially) -->
+  <div class="card" id="dashboard-page" style="display:none;">
+    <h1>🎉 Dashboard</h1>
+    <h2>Xin chào, Admin!</h2>
+
+    <p style="color:#94a3b8; margin-bottom:1rem; font-size:0.9rem;">
+      Bạn đã đăng nhập thành công.
+    </p>
+
+    <!-- Counter widget -->
+    <label>Counter (để test click)</label>
+    <div class="counter-section">
+      <button class="btn-secondary counter-btn" id="decrement-btn" onclick="changeCounter(-1)">−</button>
+      <span id="counter-value">0</span>
+      <button class="btn-primary counter-btn" id="increment-btn" onclick="changeCounter(1)">+</button>
+    </div>
+
+    <!-- Dropdown -->
+    <br/>
+    <label for="role-select">Chọn vai trò</label>
+    <select id="role-select" name="role" onchange="handleRoleChange(this.value)">
+      <option value="">-- Chọn --</option>
+      <option value="admin">Admin</option>
+      <option value="tester">Tester</option>
+      <option value="viewer">Viewer</option>
+    </select>
+
+    <div id="role-message" style="display:none; color:#86efac; font-size:0.85rem; margin-bottom:1rem;"></div>
+
+    <!-- Nav links -->
+    <div class="nav-links">
+      <a href="#about" id="about-link" onclick="showSection('about')">About</a>
+      <a href="#settings" id="settings-link" onclick="showSection('settings')">Settings</a>
+    </div>
+
+    <button class="btn-danger" id="logout-btn" onclick="handleLogout()" style="margin-top:1rem;">
+      Đăng xuất
+    </button>
+
+    <div id="message-dashboard"></div>
+  </div>
+
+  <p id="page-indicator">Trang hiện tại: <span id="current-page">login</span></p>
+
+  <script>
+    // ─── Login logic ─────────────────────────────────────────
+    const VALID_CREDENTIALS = { email: 'admin@example.com', password: 'password123' };
+
+    function handleLogin() {
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const errorEl  = document.getElementById('error-message');
+      const msgEl    = document.getElementById('message');
+
+      errorEl.style.display = 'none';
+      msgEl.className = '';
+      msgEl.style.display = 'none';
+
+      if (!email || !password) {
+        errorEl.textContent = 'Vui lòng nhập đầy đủ email và mật khẩu.';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      if (email === VALID_CREDENTIALS.email && password === VALID_CREDENTIALS.password) {
+        // Success
+        document.getElementById('login-page').style.display   = 'none';
+        document.getElementById('dashboard-page').style.display = 'block';
+        document.getElementById('current-page').textContent   = 'dashboard';
+        document.title = 'Dashboard – Web Test Agent';
+      } else {
+        errorEl.textContent = 'Email hoặc mật khẩu không đúng.';
+        errorEl.style.display = 'block';
+        msgEl.className = 'error';
+        msgEl.textContent = 'Đăng nhập thất bại.';
+      }
+    }
+
+    // ─── Counter ─────────────────────────────────────────────
+    let counterValue = 0;
+    function changeCounter(delta) {
+      counterValue += delta;
+      document.getElementById('counter-value').textContent = counterValue;
+    }
+
+    // ─── Role select ─────────────────────────────────────────
+    function handleRoleChange(value) {
+      const el = document.getElementById('role-message');
+      if (value) {
+        el.textContent = `Đã chọn vai trò: ${value}`;
+        el.style.display = 'block';
+      } else {
+        el.style.display = 'none';
+      }
+    }
+
+    // ─── Navigation ──────────────────────────────────────────
+    function showSection(section) {
+      const msgEl = document.getElementById('message-dashboard');
+      msgEl.textContent = `Đang ở section: ${section}`;
+      msgEl.style.display = 'block';
+      msgEl.style.color = '#7c3aed';
+      msgEl.style.fontSize = '0.85rem';
+      msgEl.style.marginTop = '0.5rem';
+    }
+
+    // ─── Logout ──────────────────────────────────────────────
+    function handleLogout() {
+      document.getElementById('dashboard-page').style.display = 'none';
+      document.getElementById('login-page').style.display     = 'block';
+      document.getElementById('email').value    = '';
+      document.getElementById('password').value = '';
+      document.getElementById('current-page').textContent = 'login';
+      document.title = 'Demo Site – Web Test Agent';
+      counterValue = 0;
+      document.getElementById('counter-value').textContent = '0';
+    }
+
+    // ─── Enter key support ───────────────────────────────────
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const loginPage = document.getElementById('login-page');
+        if (loginPage.style.display !== 'none') handleLogin();
+      }
+    });
+  </script>
+</body>
+</html>

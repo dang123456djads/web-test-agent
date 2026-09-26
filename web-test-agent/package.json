@@ -1,0 +1,42 @@
+{
+  "name": "web-test-agent",
+  "version": "0.1.0",
+  "description": "AI Agent hỗ trợ kiểm thử ứng dụng Web – Research Project",
+  "author": "NCKH Research Team",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "ts-node --esm src/main.ts",
+    "build": "tsc --project tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:unit": "jest tests/unit",
+    "test:e2e": "jest tests/e2e",
+    "test:smoke": "jest tests/unit/smoke.test.ts --verbose",
+    "test:m1": "jest tests/unit/executor.test.ts tests/e2e/executor-e2e.test.ts --verbose",
+    "test:executor": "jest tests/unit/executor.test.ts --verbose",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.27.0",
+    "better-sqlite3": "^11.3.0",
+    "dotenv": "^16.4.5",
+    "pino": "^9.4.0",
+    "playwright": "^1.47.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.7.4",
+    "jest": "^29.7.0",
+    "pino-pretty": "^11.3.0",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
+  }
+}

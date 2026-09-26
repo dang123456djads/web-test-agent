@@ -1,0 +1,47 @@
+{
+  "explorer": {
+    "max_depth": 5,
+    "max_states": 200,
+    "state_hash_algorithm": "sha256"
+  },
+  "llm": {
+    "max_llm_calls": 500,
+    "model": "claude-3-5-sonnet-20241022",
+    "max_tokens": 4096,
+    "temperature": 0.0
+  },
+  "grounding": {
+    "ambiguity_threshold": 0.15,
+    "confidence_threshold": 0.75,
+    "max_candidates": 10,
+    "enable_llm_fallback": true
+  },
+  "executor": {
+    "timeout_ms": 30000,
+    "retry_count": 3,
+    "retry_delay_ms": 1000,
+    "headless": true,
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "observer": {
+    "screenshot_on_action": true,
+    "screenshot_on_failure": true
+  },
+  "evaluator": {
+    "enable_semantic_eval": false
+  },
+  "reporter": {
+    "output_dir": "reports",
+    "formats": ["json", "html"]
+  },
+  "database": {
+    "path": "data/agent.db"
+  },
+  "logging": {
+    "level": "info",
+    "pretty": false
+  }
+}

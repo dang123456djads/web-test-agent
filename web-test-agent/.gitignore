@@ -1,0 +1,73 @@
+# ===========================
+# Dependencies
+# ===========================
+node_modules/
+.pnp
+.pnp.js
+
+# ===========================
+# Build output
+# ===========================
+dist/
+build/
+*.js.map
+*.d.ts.map
+
+# ===========================
+# Environment & Secrets
+# ===========================
+.env
+.env.local
+.env.*.local
+*.pem
+
+# ===========================
+# Database
+# ===========================
+data/*.db
+data/*.db-shm
+data/*.db-wal
+data/*.sqlite
+
+# ===========================
+# Reports (generated)
+# ===========================
+reports/*.html
+reports/*.json
+reports/*.xml
+reports/screenshots/
+reports/videos/
+
+# ===========================
+# Playwright
+# ===========================
+test-results/
+playwright-report/
+playwright/.cache/
+
+# ===========================
+# Logs
+# ===========================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===========================
+# OS & Editor
+# ===========================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# ===========================
+# Temp
+# ===========================
+.tmp/
+tmp/
+temp/
