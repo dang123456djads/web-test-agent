@@ -1,8 +1,8 @@
 // ============================================================
-// LLM Client – SKELETON (M2+)
-// Wraps @anthropic-ai/sdk with token tracking and logging.
+// LLM Client – Entry point
+// Re-exports AnthropicClient and types for consumption.
 // ============================================================
 
-export class LlmClient {
-  // TODO M2: Implement Anthropic API client with token/cost logging
-}
+export * from './types';
+export * from './anthropic-client';
+export { AnthropicClient as LlmClient } from './anthropic-client';
